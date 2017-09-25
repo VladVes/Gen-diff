@@ -1,3 +1,5 @@
 #! /usr/bin/env nodejs
 
-console.log("HI man!");
+import run from '../';
+
+run();
