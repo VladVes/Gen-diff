@@ -16,8 +16,10 @@ export default (left, right) => {
         acc += ` - ${key}: ${firstConfig[key]}\n`;
         acc += ` - ${key}: ${secondConfig[key]}\n`;
       }
+
       return acc;
     }
+
     if (_.has(firstConfig, key) && !_.has(secondConfig, key)) {
       acc += ` - ${key}: ${firstConfig[key]}\n`;
     } else {
@@ -27,5 +29,5 @@ export default (left, right) => {
     return acc;
   }, '');
 
-  return `{\n ${result}\n}`;
+  return `{\n ${result}}`;
 };
