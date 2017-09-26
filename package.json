@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/VladVes/project-lvl2-s125#readme",
   "dependencies": {
-    "commander": "*"
+    "commander": "*",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "babel-cli": "*",
