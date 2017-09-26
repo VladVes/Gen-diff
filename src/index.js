@@ -9,7 +9,7 @@ export const run = () => {
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
       const result = compare.json(firstConfig, secondConfig);
-      console.log("test: ", result);
+      console.log(result);
       //firstConfigValue = firstConfig;
       //secondConfigValue = secondConfig;
     });
