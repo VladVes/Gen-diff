@@ -1,3 +1,5 @@
-import { json } from './lib/';
+import lib from './lib/';
 
-export default json;
+const genDiff = lib.json;
+
+export default genDiff;

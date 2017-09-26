@@ -1,5 +1,5 @@
 import cli from 'commander';
-import compare from './lib/';
+import compare from '../lib/';
 
 export const run = () => {
   cli

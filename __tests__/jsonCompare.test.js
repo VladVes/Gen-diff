@@ -1,7 +1,5 @@
 import compare from '../src/lib/';
 
-const fn = (a, b) => a + b;
-
 describe('compare plain json files', () => {
   const expected1 = `{\n   host: hexlet.io\n - timeout: 50\n - timeout: 20\n - proxy: 123.234.53.22\n + verbose: true\n}`;
   it('should work', () => {
