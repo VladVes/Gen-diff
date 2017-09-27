@@ -8,7 +8,7 @@ test:
 	npm test
 
 jwatch:
-	jest --watchAll
+	jest --watch
 
 build:
 	npm run build
@@ -18,3 +18,6 @@ publish:
 
 lint:
 	npm run eslint ./src/**
+
+fixlint:
+	npm run eslint --fix ./src/**
