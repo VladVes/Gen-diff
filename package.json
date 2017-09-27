@@ -31,6 +31,7 @@
   "homepage": "https://github.com/VladVes/project-lvl2-s125#readme",
   "dependencies": {
     "commander": "*",
+    "js-yaml": "^3.10.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
