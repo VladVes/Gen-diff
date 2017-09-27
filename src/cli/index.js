@@ -3,7 +3,7 @@ import compare from '../lib/';
 
 export const run = () => {
   cli
-    .version('1.0.0')
+    .version('1.1.2')
     .description('Compare two configuration files and shows a difference')
     .option('-f, --format [type]', 'Output format')
     .arguments('<firstConfig> <secondConfig>')
