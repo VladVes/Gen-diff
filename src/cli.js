@@ -1,5 +1,5 @@
 import cli from 'commander';
-import compare from '../lib/';
+import compare from './';
 
 export const run = () => {
   cli
@@ -8,7 +8,7 @@ export const run = () => {
     .option('-f, --format [type]', 'Output format')
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
-      const result = compare.json(firstConfig, secondConfig);
+      const result = compare(firstConfig, secondConfig);
       console.log(result);
     });
     cli.parse(process.argv);

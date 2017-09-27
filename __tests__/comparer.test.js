@@ -1,4 +1,4 @@
-import tool from '../src/lib/tools/';
+import { compare } from '../src/tools';
 
 describe('compare parsed configs', () => {
   const expected1 = {
@@ -8,7 +8,7 @@ describe('compare parsed configs', () => {
   it('should be modified', () => {
     const before = { key1: 'value1', key2: 'value2' };
     const after = { key1: 'value1', key2: 'anotherValue' };
-    expect(tool.compare(before, after)).toEqual(expected1);
+    expect(compare(before, after)).toEqual(expected1);
   });
 
   const expected2 = {
@@ -19,7 +19,7 @@ describe('compare parsed configs', () => {
   it('should be added', () => {
     const before = { key1: 'value1', key2: 'value2' };
     const after = { key1: 'value1', key2: 'value2', key3: 'value3' };
-    expect(tool.compare(before, after)).toEqual(expected2);
+    expect(compare(before, after)).toEqual(expected2);
   });
 
   const expected3 = {
@@ -30,6 +30,6 @@ describe('compare parsed configs', () => {
   it('should be removed', () => {
     const before = { key1: 'value1', key2: 'value2', key3: 'value3' };
     const after = { key1: 'value1', key3: 'value3' };
-    expect(tool.compare(before, after)).toEqual(expected3);
+    expect(compare(before, after)).toEqual(expected3);
   });
 });
