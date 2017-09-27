@@ -2,7 +2,7 @@ import { getFileContents } from './tools';
 import yaml from 'js-yaml';
 
 const yml = (pathToFile) => {
-  const firstConfig = yaml.safeLoad(getFileContents(pathToFile));
+  const data = yaml.safeLoad(getFileContents(pathToFile));
   return data;
 };
 
