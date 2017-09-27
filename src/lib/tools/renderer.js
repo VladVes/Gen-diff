@@ -6,7 +6,7 @@ export default (data) => {
     const [ status, value1, value2 ] = data[key];
     switch (status) {
       case 'identical':
-        acc += `  ${key}: ${value1}\n`;
+        acc += `   ${key}: ${value1}\n`;
         break;
       case 'modified':
         acc += ` - ${key}: ${value1}\n`;
@@ -16,12 +16,12 @@ export default (data) => {
         acc += ` - ${key}: ${value1}\n`;
         break;
       case 'added':
-        acc += ` + ${key}: ${value2}\n`;
+        acc += ` + ${key}: ${value1}\n`;
         break;
     }
 
     return acc;
   }, '');
 
-  return `{\n ${result}}`;
+  return `{\n${result}}`;
 };
