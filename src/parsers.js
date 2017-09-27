@@ -1,9 +1,8 @@
 import yaml from 'js-yaml';
 
 const parsersMap = {
-  json: (data) => JSON.parse(data),
-  yml: (data) => yaml.safeLoad(data),
-  ini: (data) => {}
+  json: data => JSON.parse(data),
+  yml: data => yaml.safeLoad(data),
 };
 
-export default (type) => parsersMap[type];
+export default type => parsersMap[type];
