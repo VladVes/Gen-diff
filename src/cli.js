@@ -1,16 +1,19 @@
 import cli from 'commander';
 import compare from './';
 
-export const run = () => {
+export default () => {
   cli
-    .version('1.1.2')
+    .version('1.1.10')
     .description('Compare two configuration files and shows a difference')
-    .option('-f, --format [type]', 'Output format')
+    .option('-f, --format [type]', 'output format')
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
-      const result = compare(firstConfig, secondConfig);
-      console.log(result);
+      try {
+        const result = compare(firstConfig, secondConfig);
+        console.log(result);
+      } catch (error) {
+        console.log('We have some trouble:', error);
+      }
     });
-    cli.parse(process.argv);
-
+  cli.parse(process.argv);
 };

@@ -1,6 +1,6 @@
-import { compare, render } from './tools';
-import parsers from './parsers';
 import path from 'path';
+import { compare, render } from './genDiffLib';
+import parsers from './parsers';
 
 export default (file1, file2) => {
   if (path.extname(file1) === path.extname(file2)) {
@@ -8,7 +8,7 @@ export default (file1, file2) => {
     const parser = parsers[type];
     const cmpResult = compare(parser(file1), parser(file2));
     return render(cmpResult);
-  } else {
-    throw new Exception('config type error');
   }
+
+  throw new Error('unknonw config file');
 };

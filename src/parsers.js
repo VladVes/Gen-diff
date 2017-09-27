@@ -1,5 +1,5 @@
-import { getFileContents } from './tools';
 import yaml from 'js-yaml';
+import { getFileContents } from './genDiffLib';
 
 const yml = (pathToFile) => {
   const data = yaml.safeLoad(getFileContents(pathToFile));

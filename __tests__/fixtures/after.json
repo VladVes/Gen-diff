@@ -1,5 +1,7 @@
 {
   "timeout": 20,
+  "language": "eng",
   "verbose": true,
-  "host": "hexlet.io"
+  "host": "hexlet.io",
+  "name": "john"
 }

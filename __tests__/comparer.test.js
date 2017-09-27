@@ -1,4 +1,4 @@
-import { compare } from '../src/tools';
+import { compare } from '../src/genDiffLib';
 
 describe('compare parsed configs', () => {
   const expected1 = {

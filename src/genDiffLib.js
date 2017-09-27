@@ -23,28 +23,23 @@ const compare = (first, second) => {
 };
 
 const render = (data) => {
-  const result = Object.keys(data).reduce((acc, key) => {
-    const [ status, value1, value2 ] = data[key];
+  const renderedData = Object.keys(data).reduce((acc, key) => {
+    const [status, value1, value2] = data[key];
     switch (status) {
       case 'identical':
-        acc += `   ${key}: ${value1}\n`;
-        break;
+        return [...acc, `   ${key}: ${value1}\n`];
       case 'modified':
-        acc += ` - ${key}: ${value1}\n`;
-        acc += ` - ${key}: ${value2}\n`;
-        break;
+        return [...acc, ` - ${key}: ${value1}\n`, ` - ${key}: ${value2}\n`];
       case 'removed':
-        acc += ` - ${key}: ${value1}\n`;
-        break;
+        return [...acc, ` - ${key}: ${value1}\n`];
       case 'added':
-        acc += ` + ${key}: ${value1}\n`;
-        break;
+        return [...acc, ` + ${key}: ${value1}\n`];
+      default:
+        throw new Error('Render error: unknonw property status');
     }
+  }, []).join('');
 
-    return acc;
-  }, '');
-
-  return `{\n${result}}`;
+  return `{\n${renderedData}}`;
 };
 
 const getFileContents = (path) => {

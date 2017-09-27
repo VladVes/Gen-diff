@@ -1,5 +1,5 @@
 #! /usr/bin/env nodejs
 
-import { run } from './cli';
+import { run } from '../cli';
 
 run();
