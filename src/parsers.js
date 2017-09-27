@@ -1,14 +1,9 @@
 import yaml from 'js-yaml';
-import { getFileContents } from './genDiffLib';
 
-const yml = (pathToFile) => {
-  const data = yaml.safeLoad(getFileContents(pathToFile));
-  return data;
+const parsersMap = {
+  json: (data) => JSON.parse(data),
+  yml: (data) => yaml.safeLoad(data),
+  ini: (data) => {}
 };
 
-const json = (pathToFile) => {
-  const data = JSON.parse(getFileContents(pathToFile));
-  return data;
-};
-
-export default { yml, json };
+export default (type) => parsersMap[type];

@@ -1,12 +1,14 @@
 import path from 'path';
-import { compare, render } from './genDiffLib';
-import parsers from './parsers';
+import { compare, render, getFileContents } from './genDiffLib';
+import getParser from './parsers';
 
-export default (file1, file2) => {
-  if (path.extname(file1) === path.extname(file2)) {
-    const type = path.extname(file1).slice(1);
-    const parser = parsers[type];
-    const cmpResult = compare(parser(file1), parser(file2));
+export default (pathToFile1, pathToFile2) => {
+  if (path.extname(pathToFile1) === path.extname(pathToFile2)) {
+    const type = path.extname(pathToFile1).slice(1);
+    const parse = getParser(type);
+    const data1 = getFileContents(pathToFile1);
+    const data2 = getFileContents(pathToFile2);    
+    const cmpResult = compare(parse(data1), parse(data2));
     return render(cmpResult);
   }
 
