@@ -10,4 +10,8 @@ describe('compare files using imported genDiff', () => {
   it('should work whith YAML', () => {
     expect(genDiff('./__tests__/fixtures/before.yml', './__tests__/fixtures/after.yml')).toBe(expected);
   });
+
+  it('should work whith INI', () => {
+    expect(genDiff('./__tests__/fixtures/before.ini', './__tests__/fixtures/after.ini')).toBe(expected);
+  });
 });
