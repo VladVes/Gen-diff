@@ -7,6 +7,9 @@ start:
 test:
 	npm test
 
+testA:
+	npm test ast.test.js
+
 jwatch:
 	jest --watch
 
