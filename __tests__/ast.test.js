@@ -37,7 +37,7 @@ const dataSet2 = {
 
 const config = new ConfigAst();
 
-describe('AST methods', () => {
+describe('AST work', () => {
   it('should exists', () => {
     expect(config).toBeDefined();
   });

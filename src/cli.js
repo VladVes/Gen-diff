@@ -1,5 +1,5 @@
 import cli from 'commander';
-import compare from './';
+import genDiff from './';
 
 export default () => {
   cli
@@ -9,7 +9,7 @@ export default () => {
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
       try {
-        const result = compare(firstConfig, secondConfig);
+        const result = genDiff(firstConfig, secondConfig);
         console.log(result);
       } catch (error) {
         console.log('We have some trouble:', error);

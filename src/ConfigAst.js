@@ -1,5 +1,16 @@
 import _ from 'lodash';
 
+const createPropBasedOn = (prop, updates = {}) => {
+  const { comparsionResult, newValue, child } = updates;
+  return {
+    name: prop.name,
+    comparsionResult: comparsionResult || prop.comparsionResult,
+    isChild: prop.isChild,
+    value: child || prop.value,
+    newValue: newValue || prop.newValue,
+  };
+};
+
 export default class ConfigAst {
   constructor(data) {
     this.data = data || [];
@@ -54,6 +65,9 @@ export default class ConfigAst {
   getPropValue(propertyName) {
     return this.find(propertyName).value;
   }
+  /*
+  linter error  Expected 'this' to be used by class method 'createPropBasedOn'
+  class-methods-use-this
 
   createPropBasedOn(prop, updates = {}) {
     const { comparsionResult, newValue, child } = updates;
@@ -65,15 +79,16 @@ export default class ConfigAst {
       newValue: newValue || prop.newValue,
     };
   }
+  */
 
   compareWith(config) {
     const properties = _.union(this.getAllProerties(), config.getAllProerties());
     const newData = properties.reduce((acc, name) => {
-      if(this.hasProperty(name) && config.hasProperty(name)) {
+      if (this.hasProperty(name) && config.hasProperty(name)) {
         if (this.hasChild(name) && config.hasChild(name)) {
           const child = this.getChild(name).compareWith(config.getChild(name));
           const prop = this.getProperty(name);
-          const newProp = this.createPropBasedOn(prop, {
+          const newProp = createPropBasedOn(prop, {
             comparsionResult: 'noChange',
             child,
           });
@@ -81,13 +96,13 @@ export default class ConfigAst {
         }
 
         if (this.getPropValue(name) === config.getPropValue(name)) {
-          const prop = this.createPropBasedOn(this.getProperty(name), {
+          const prop = createPropBasedOn(this.getProperty(name), {
             comparsionResult: 'noChange',
           });
           return [...acc, prop];
         }
 
-        const modifiedProp = this.createPropBasedOn(this.getProperty(name), {
+        const modifiedProp = createPropBasedOn(this.getProperty(name), {
           comparsionResult: 'modified',
           newValue: config.getPropValue(name),
         });
@@ -95,19 +110,16 @@ export default class ConfigAst {
       }
 
       if (this.hasProperty(name) && !config.hasProperty(name)) {
-        const removedProp = this.createPropBasedOn(this.getProperty(name), {
+        const removedProp = createPropBasedOn(this.getProperty(name), {
           comparsionResult: 'removed',
         });
         return [...acc, removedProp];
       }
 
-      if (!this.hasProperty(name) && config.hasProperty(name)) {
-        const addedProp = this.createPropBasedOn(config.getProperty(name), {
-          comparsionResult: 'added',
-        });
-        return [...acc, addedProp];
-      }
-
+      const addedProp = createPropBasedOn(config.getProperty(name), {
+        comparsionResult: 'added',
+      });
+      return [...acc, addedProp];
     }, []);
     return new ConfigAst(newData);
   }
@@ -123,11 +135,12 @@ export default class ConfigAst {
       added: '+ ',
       noChange: '  ',
     };
-    const result = properties.map(name => {
+    const result = properties.map((name) => {
       const property = this.getProperty(name);
       const sign = cmpResultMap[property.comparsionResult];
       if (property.isChild) {
-        return `\n${idention}  ${sign}${name}: ` + this.getChild(name).toString(idention + '    ');
+        const childString = this.getChild(name).toString(`${idention}    `);
+        return `\n${idention}  ${sign}${name}: ${childString}`;
       }
 
       if (property.comparsionResult === 'modified') {
@@ -141,5 +154,4 @@ export default class ConfigAst {
 
     return `{${result}\n${idention}}`;
   }
-
 }
