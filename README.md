@@ -30,5 +30,3 @@ npm install --save gen_diff
     -f, --format [type]  output format
     -h, --help           output usage information
 ```
-
-#### Vladimir Veselov

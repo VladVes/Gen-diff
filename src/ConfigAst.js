@@ -5,7 +5,7 @@ const createPropBasedOn = (prop, updates = {}) => {
   return {
     name: prop.name,
     comparsionResult: comparsionResult || prop.comparsionResult,
-    isChild: prop.isChild,
+    hasChild: prop.hasChild,
     value: child || prop.value,
     newValue: newValue || prop.newValue,
   };
@@ -25,12 +25,12 @@ export default class ConfigAst {
       };
 
       if (typeof data[key] === 'object') {
-        item.isChild = true;
+        item.hasChild = true;
         item.value = this.createOn(data[key]);
         return [...acc, item];
       }
 
-      item.isChild = false;
+      item.hasChild = false;
       item.value = data[key];
       return [...acc, item];
     }, []);
@@ -47,7 +47,7 @@ export default class ConfigAst {
   }
 
   hasChild(name) {
-    return this.find(name).isChild;
+    return this.find(name).hasChild;
   }
 
   getChild(propertyName) {
@@ -65,21 +65,6 @@ export default class ConfigAst {
   getPropValue(propertyName) {
     return this.find(propertyName).value;
   }
-  /*
-  linter error  Expected 'this' to be used by class method 'createPropBasedOn'
-  class-methods-use-this
-
-  createPropBasedOn(prop, updates = {}) {
-    const { comparsionResult, newValue, child } = updates;
-    return {
-      name: prop.name,
-      comparsionResult: comparsionResult || prop.comparsionResult,
-      isChild: prop.isChild,
-      value: child || prop.value,
-      newValue: newValue || prop.newValue,
-    };
-  }
-  */
 
   compareWith(config) {
     const properties = _.union(this.getAllProerties(), config.getAllProerties());
@@ -122,36 +107,5 @@ export default class ConfigAst {
       return [...acc, addedProp];
     }, []);
     return new ConfigAst(newData);
-  }
-
-  toString(idention = '') {
-    const properties = this.getAllProerties();
-    const cmpResultMap = {
-      modified: {
-        forNewVal: '+ ',
-        forPrevVal: '- ',
-      },
-      removed: '- ',
-      added: '+ ',
-      noChange: '  ',
-    };
-    const result = properties.map((name) => {
-      const property = this.getProperty(name);
-      const sign = cmpResultMap[property.comparsionResult];
-      if (property.isChild) {
-        const childString = this.getChild(name).toString(`${idention}    `);
-        return `\n${idention}  ${sign}${name}: ${childString}`;
-      }
-
-      if (property.comparsionResult === 'modified') {
-        const firstStr = `\n${idention}  ${sign.forNewVal}${name}: ${property.newValue}`;
-        const secondStr = `\n${idention}  ${sign.forPrevVal}${name}: ${property.value}`;
-        return firstStr + secondStr;
-      }
-
-      return `\n${idention}  ${sign}${name}: ${property.value}`;
-    }).join('');
-
-    return `{${result}\n${idention}}`;
   }
 }
