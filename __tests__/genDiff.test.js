@@ -6,7 +6,6 @@ describe('compare files using imported genDiff', () => {
   const before = `${fixtures}/before`;
   const after = `${fixtures}/after`;
   const expected = fs.readFileSync(`${fixtures}/correct.txt`, 'utf8');
-  //console.log(expected);
 
   it('should work whith JSON', () => {
     expect(genDiff(`${before}.json`, `${after}.json`) + '\n').toBe(expected);
