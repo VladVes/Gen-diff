@@ -3,6 +3,7 @@ import _ from 'lodash';
 export default (format) => {
   const renderers = {
     flat: (data) => {
+      /*
       const getFullPropName = (prop) => {
 
       };
@@ -42,6 +43,8 @@ export default (format) => {
 
       return toString();
     },
+    */
+    
     standart: (data) => {
       const cmpStatus = {
         default: '  ',
