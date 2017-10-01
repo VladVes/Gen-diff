@@ -19,4 +19,10 @@ describe('compare files using imported genDiff', () => {
   it('should work whith INI', () => {
     expect(genDiff(`${before}.ini`, `${after}.ini`)).toBe(expected);
   });
+
+  const expectedFlat1 = fs.readFileSync(`${fixtures}/correctFlat1.txt`, 'utf8');
+  it('should work whith JSON - for flat output', () => {
+    expect(genDiff(`${before}.json`, `${after}.json`, 'flat')).toBe(expectedFlat1);
+
+  });
 });

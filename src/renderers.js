@@ -3,47 +3,34 @@ import _ from 'lodash';
 export default (format) => {
   const renderers = {
     flat: (data) => {
-      /*
-      const getFullPropName = (prop) => {
-      };
-
       const makeDesc = (prop) => {
-        const value = prop.hasChild ? 'copmlex value' : `value: ${prop.value}\n`;
-        const name = `Property '${prop.name}'`;
+        const value = _.isObject(prop.value) ? 'copmlex value' : `value: ${prop.value}`;
         const cmpResultMap = {
-          modified: `${name} was updated From ${prop.value} to ${prop.newValue}\n`,
-          removed: `${name} was removed\n`,
-          added: `${name} was added with ${value}\n`,
+          modified: ` was updated From ${prop.value} to ${prop.newValue}\n`,
+          removed: `was removed\n`,
+          added: `was added with ${value}\n`,
         };
 
         return cmpResultMap[prop.status];
       };
 
-      const getChangedProps = (config) => {
-        const result = config.reduce((acc, prop) => {
+      const toString = (config, ...rest) => {
+        const parents = `${rest.join('.')}`;
+        return config.reduce((acc, prop) => {
           if (prop.status !== 'default') {
-            const descStr = `${makeDesc(prop)}`;
-            return [...acc, descStr];
-
-            if(prop.hasChild) {
-              const descStr = `'${prop.name}' `;
-              return
+            if (prop.status === 'nested') {
+              const descStr = toString(prop.children, prop.key);
+              return [...acc, descStr];
             }
+            const dot = parents ? `.` : ``;
+            const descStr = `Property '${parents}${dot}${prop.key}' ${makeDesc(prop)}`;
+            return [...acc, descStr];
           }
-
           return acc;
-        }, []);
+        }, []).join('');
       };
 
-      const toString = (config) => {
-
-          const result = onlyWithChanges.reduce();
-
-        return result;
-      };
-
-      return toString();
-    */
+      return toString(data);
     },
 
     standart: (data) => {

@@ -40,8 +40,4 @@ describe('Renderes should return string representation', () => {
     const expectedB = `{\n${sf}s: {\n${sf}  + p1: up1\n${sf}  - p1: v1\n${sf}${sf}s1: {\n${sf}${sf}  + sp1: up2\n${sf}${sf}  - sp1: v2\n${sf}${sf}}\n${sf}}\n}\n`;
     expect(getRenderer('standart')(compare(dataSetB1, dataSetB2))).toBe(expectedB);
   });
-
-  //it('shold work with flat renderer', () => {
-  //  expect(getRenderer('flat')(compare(dataSetC1, dataSetC2))).toBe(expectedB);
-  //});
 });
