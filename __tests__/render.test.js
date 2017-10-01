@@ -19,7 +19,7 @@ describe('Renderes should return string representation', () => {
     };
     const sf = '    ';
     const ss = '        '
-    const expectedA = `{\n${sf}section1: {\n${sf}${sf}a: valA1\n${sf}${sf}b: valB2\n${sf}${sf}subSection1: {\n${sf}${sf}${sf}c: valC\n${sf}${sf}}\n${sf}}\n${sf}section2: {\n${sf}${sf}a: valA2\n${sf}${sf}b: valA3\n${sf}}\n${sf}prop: flat\n}`;
+    const expectedA = `{\n${sf}section1: {\n${sf}${sf}a: valA1\n${sf}${sf}b: valB2\n${sf}${sf}subSection1: {\n${sf}${sf}${sf}c: valC\n${sf}${sf}}\n${sf}}\n${sf}section2: {\n${sf}${sf}a: valA2\n${sf}${sf}b: valA3\n${sf}}\n${sf}prop: flat\n}\n`;
     expect(getRenderer('standart')(compare(dataSetA, dataSetA))).toBe(expectedA);
     const dataSetB1 = {
       s: {
@@ -37,9 +37,11 @@ describe('Renderes should return string representation', () => {
         }
       }
     };
-    const expectedB = `{\n${sf}s: {\n${sf}  + p1: up1\n${sf}  - p1: v1\n${sf}${sf}s1: {\n${sf}${sf}  + sp1: up2\n${sf}${sf}  - sp1: v2\n${sf}${sf}}\n${sf}}\n}`;
+    const expectedB = `{\n${sf}s: {\n${sf}  + p1: up1\n${sf}  - p1: v1\n${sf}${sf}s1: {\n${sf}${sf}  + sp1: up2\n${sf}${sf}  - sp1: v2\n${sf}${sf}}\n${sf}}\n}\n`;
     expect(getRenderer('standart')(compare(dataSetB1, dataSetB2))).toBe(expectedB);
   });
 
-  it('shold work with flat renderer', () => {});
+  //it('shold work with flat renderer', () => {
+  //  expect(getRenderer('flat')(compare(dataSetC1, dataSetC2))).toBe(expectedB);
+  //});
 });

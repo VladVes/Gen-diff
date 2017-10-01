@@ -3,6 +3,7 @@ import _ from 'lodash';
 export default (format) => {
   const renderers = {
     flat: (data) => {
+      /*
       const getFullPropName = (prop) => {
       };
 
@@ -42,6 +43,7 @@ export default (format) => {
       };
 
       return toString();
+    */
     },
 
     standart: (data) => {
@@ -93,7 +95,7 @@ export default (format) => {
         return `{${result}\n${idention}}`;
       };
 
-      return toString(data);
+      return `${toString(data)}\n`;
     },
   };
 
