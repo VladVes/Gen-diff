@@ -3,33 +3,33 @@ import _ from 'lodash';
 export default (format) => {
   const renderers = {
     flat: (data) => {
-      /*
       const getFullPropName = (prop) => {
-
       };
-      const makeCmpResultDesc = (prop) => {
-        const value = prop.hasChild ? 'copmlex value' : `value: ${prop.value}`
+
+      const makeDesc = (prop) => {
+        const value = prop.hasChild ? 'copmlex value' : `value: ${prop.value}\n`;
+        const name = `Property '${prop.name}'`;
         const cmpResultMap = {
-          modified: `was updated From ${prop.value} to ${prop.newValue}`,
-          removed: `was removed`,
-          added: `was added with ${value}`,
-          noChange: 'noChange',
+          modified: `${name} was updated From ${prop.value} to ${prop.newValue}\n`,
+          removed: `${name} was removed\n`,
+          added: `${name} was added with ${value}\n`,
         };
 
-        return cmpResultMap[prop.comparsionResult];
+        return cmpResultMap[prop.status];
       };
 
       const getChangedProps = (config) => {
-        const result = Objec.keys(config).reduce((acc, name) => {
-          const prop = config.getProperty(name);
-          if (prop.hasChild) {
-            const chengedProps = getChangedProps(config.getChild(name));
-            return [...acc, chengedProps];
+        const result = config.reduce((acc, prop) => {
+          if (prop.status !== 'default') {
+            const descStr = `${makeDesc(prop)}`;
+            return [...acc, descStr];
+
+            if(prop.hasChild) {
+              const descStr = `'${prop.name}' `;
+              return
+            }
           }
 
-          if (prop.comparsionResult !== 'noChange') {
-            return [...acc, prop];
-          }
           return acc;
         }, []);
       };
@@ -43,12 +43,11 @@ export default (format) => {
 
       return toString();
     },
-    */
-    
+
     standart: (data) => {
       const cmpStatus = {
         default: '  ',
-        parent: '  ',
+        nested: '  ',
         removed: '- ',
         added: '+ ',
         modified: {
@@ -57,12 +56,22 @@ export default (format) => {
         },
       };
 
+      const objectToString = (obj, idention) => {
+        return _.keys(obj).map((key) => {
+          if (_.isObject(obj[key])) {
+            const nestedStr = objectToString(obj[key], `${idention}  `);
+            return `\n${idention}${idention}    ${key}: {${nestedStr}\n${idention}${idention}    }`;
+          }
+          return `\n${idention}${idention}    ${key}: ${obj[key]}`;
+        }).join('');
+      };
+
       const toString = (configData, idention = '') => {
-          const result = configData.map((item) => {
+        const result = configData.map((item) => {
           const sign = cmpStatus[item.status];
           const name = item.key;
-          if (item.hasChild) {
-            const childStr = toString(item.value, `${idention}    `);
+          if (item.status === 'nested') {
+            const childStr = toString(item.children, `${idention}    `);
             return `\n${idention}  ${sign}${name}: ${childStr}`;
           }
 
@@ -72,14 +81,18 @@ export default (format) => {
             return firstStr + secondStr;
           }
 
+          if (_.isObject(item.value)) {
+            const newIdention = idention || '  ';
+            const complexData = objectToString(item.value, newIdention);
+            return `\n${idention}  ${sign}${name}: {${complexData}\n${idention}    }`;
+          };
+
           return `\n${idention}  ${sign}${name}: ${item.value}`;
         }).join('');
 
         return `{${result}\n${idention}}`;
-        };
+      };
 
-      const result = toString(data);
-    //  console.log(result);
       return toString(data);
     },
   };

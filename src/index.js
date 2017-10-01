@@ -3,83 +3,55 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
-import getRenderer from './renderers'
+import getRenderer from './renderers';
 
 const getType = pathTofile => path.extname(pathTofile).slice(1);
 
 const parse = (data, type) => {
   const parsersMap = {
-    json: data => JSON.parse(data),
-    yml: data => yaml.safeLoad(data),
-    ini: data => ini.parse(data),
+    json: data1 => JSON.parse(data1),
+    yml: data2 => yaml.safeLoad(data2),
+    ini: data3 => ini.parse(data3),
   };
 
   return parsersMap[type](data);
 };
 
-export const prepareData = (data) => {
-  return _.keys(data).map((key) => {
-    const hasChild = _.isObject(data[key]);
-    const preparedProperty = {
-      key,
-      status: 'default',
-      value: hasChild ? prepareData(data[key]) : data[key],
-      hasChild,
-    }
-    return preparedProperty;
-  });
-};
-
 const getData = (pathToFile) => {
   const fileContent = fs.readFileSync(pathToFile, 'utf8');
   const fileType = getType(pathToFile);
-  return prepareData(parse(fileContent, fileType));
+  return parse(fileContent, fileType);
 };
 
 export const compare = (dataBefore, dataAfter) => {
-  const beforeKeys = _.map(dataBefore, 'key');
-  const afterKeys = _.map(dataAfter, 'key');
-  const result = _.union(beforeKeys, afterKeys).map((key) => {
+  const beforeKeys = _.keys(dataBefore);
+  const afterKeys = _.keys(dataAfter);
+
+  return _.union(beforeKeys, afterKeys).map((key) => {
     if (beforeKeys.includes(key) && afterKeys.includes(key)) {
-      const propBefore = _.find(dataBefore, ['key', key]);
-      const propAfter = _.find(dataAfter, ['key', key]);
-      if (_.isEqual(propBefore.value, propAfter.value)) {
-        return propBefore;
+      if (_.isEqual(dataBefore[key], dataAfter[key])) {
+        return { key, status: 'default', value: dataBefore[key] };
       }
 
-      if (_.isArray(propBefore.value) && _.isArray(propAfter.value)) {
-        const child = compare(propBefore.value, propAfter.value);
-        return { status: 'parent', key, value: child, hasChild: true };
+      if (_.isObject(dataBefore[key]) && _.isObject(dataAfter[key])) {
+        const children = compare(dataBefore[key], dataAfter[key]);
+        return { key, status: 'nested', children };
       }
     }
 
     if (!beforeKeys.includes(key)) {
-      const propAfter = _.find(dataAfter, ['key', key]);
-      return {
-        status: 'added',
-        key,
-        value: propAfter.value,
-        hasChild: propAfter.hasChild,
-      };
+      return { key, status: 'added', value: dataAfter[key] };
     } else if (!afterKeys.includes(key)) {
-      const propBefore = _.find(dataBefore, ['key', key]);
-      return {
-        status: 'removed',
-        key,
-        value: propBefore.value,
-        hasChild: propBefore.hasChild,
-      };
+      return { key, status: 'removed', value: dataBefore[key] };
     }
 
     return {
-      status: 'modified',
       key,
-      value: _.find(dataBefore, ['key', key]).value,
-      newValue: _.find(dataAfter, ['key', key]).value,
+      status: 'modified',
+      value: dataBefore[key],
+      newValue: dataAfter[key]
     };
   });
-  
-  return result;
 };
 
 export default (pathToFile1, pathToFile2, outputFormat = 'standart') => {

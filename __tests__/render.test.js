@@ -20,8 +20,7 @@ describe('Renderes should return string representation', () => {
     const sf = '    ';
     const ss = '        '
     const expectedA = `{\n${sf}section1: {\n${sf}${sf}a: valA1\n${sf}${sf}b: valB2\n${sf}${sf}subSection1: {\n${sf}${sf}${sf}c: valC\n${sf}${sf}}\n${sf}}\n${sf}section2: {\n${sf}${sf}a: valA2\n${sf}${sf}b: valA3\n${sf}}\n${sf}prop: flat\n}`;
-    const preparedData = prepareData(dataSetA);
-    expect(getRenderer('standart')(compare(preparedData, preparedData))).toBe(expectedA);
+    expect(getRenderer('standart')(compare(dataSetA, dataSetA))).toBe(expectedA);
     const dataSetB1 = {
       s: {
         p1: 'v1',
@@ -39,8 +38,8 @@ describe('Renderes should return string representation', () => {
       }
     };
     const expectedB = `{\n${sf}s: {\n${sf}  + p1: up1\n${sf}  - p1: v1\n${sf}${sf}s1: {\n${sf}${sf}  + sp1: up2\n${sf}${sf}  - sp1: v2\n${sf}${sf}}\n${sf}}\n}`;
-    const preparedDataB1 = prepareData(dataSetB1);
-    const preparedDataB2 = prepareData(dataSetB2);
-    expect(getRenderer('standart')(compare(preparedDataB1, preparedDataB2))).toBe(expectedB);
+    expect(getRenderer('standart')(compare(dataSetB1, dataSetB2))).toBe(expectedB);
   });
+
+  it('shold work with flat renderer', () => {});
 });
