@@ -3,7 +3,7 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
-import getRenderer from './renderers';
+import getRenderer from './renderers/';
 
 const getType = pathTofile => path.extname(pathTofile).slice(1);
 
