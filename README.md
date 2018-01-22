@@ -1,6 +1,6 @@
  # Gendiff
  [![Code Climate](https://codeclimate.com/github/VladVes/Gen-diff/badges/gpa.svg)](https://codeclimate.com/github/VladVes/Gen-diff)
-[![Build Status](https://www.travis-ci.org/VladVes/Gen-diff.svg?branch=master)](https://www.travis-ci.org/VladVes/Gen-diff)
+[![Build Status](https://travis-ci.org/VladVes/Gen-diff.svg?branch=master)](https://travis-ci.org/VladVes/Gen-diff)
 
 ```
 Simple CLI app.
