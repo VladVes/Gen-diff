@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/VladVes/Gen-diff.svg?branch=master)](https://travis-ci.org/VladVes/Gen-diff)
 
 ```
-Simple CLI app.
-Compares two configuration files and shows a difference.
+This CLI app. compares two configuration files and shows a difference.
 ```
 
 ## Install:
